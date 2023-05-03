@@ -19,6 +19,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.wordsapp.adapters.WordAdapter
 import com.example.wordsapp.databinding.ActivityDetailBinding
 
 

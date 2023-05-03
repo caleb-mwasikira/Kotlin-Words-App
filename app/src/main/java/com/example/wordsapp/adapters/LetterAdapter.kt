@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.wordsapp
+package com.example.wordsapp.adapters
 
 import android.os.Build
 import android.view.LayoutInflater
@@ -23,9 +23,10 @@ import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import com.example.wordsapp.R
 
 /**
- * Adapter for the [RecyclerView] in [MainActivity].
+ * Adapter for the [RecyclerView] in MainActivity.
  */
 class LetterAdapter :
     RecyclerView.Adapter<LetterAdapter.LetterViewHolder>() {
@@ -36,13 +37,11 @@ class LetterAdapter :
     /**
      * Provides a reference for the views needed to display items in your list.
      */
-    class LetterViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val button = view.findViewById<Button>(R.id.button_item)
+    class LetterViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val button: Button = view.findViewById(R.id.button_item)
     }
 
-    override fun getItemCount(): Int {
-        return list.size
-    }
+    override fun getItemCount(): Int = list.size
 
     /**
      * Creates new views with R.layout.item_view as its template
@@ -60,7 +59,7 @@ class LetterAdapter :
      * Replaces the content of an existing view with new data
      */
     override fun onBindViewHolder(holder: LetterViewHolder, position: Int) {
-        val item = list.get(position)
+        val item = list[position]
         holder.button.text = item.toString()
     }
 

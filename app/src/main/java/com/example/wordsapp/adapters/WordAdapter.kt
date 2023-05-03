@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.wordsapp
+package com.example.wordsapp.adapters
 
 import android.content.Context
 import android.os.Build
@@ -24,9 +24,10 @@ import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import com.example.wordsapp.R
 
 /**
- * Adapter for the [RecyclerView] in [DetailActivity].
+ * Adapter for the [RecyclerView] in DetailActivity.
  */
 class WordAdapter(private val letterId: String, context: Context) :
     RecyclerView.Adapter<WordAdapter.WordViewHolder>() {
@@ -51,7 +52,7 @@ class WordAdapter(private val letterId: String, context: Context) :
     }
 
     class WordViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        val button = view.findViewById<Button>(R.id.button_item)
+        val button: Button = view.findViewById(R.id.button_item)
     }
 
     override fun getItemCount(): Int = filteredWords.size
