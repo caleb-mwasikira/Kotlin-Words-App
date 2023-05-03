@@ -16,14 +16,15 @@
 package com.example.wordsapp.adapters
 
 import android.content.Context
-import android.os.Build
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.Button
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import com.example.wordsapp.DetailActivity
+import com.example.wordsapp.accessibility.Accessibility
 import com.example.wordsapp.R
 
 /**
@@ -66,7 +67,7 @@ class WordAdapter(private val letterId: String, context: Context) :
             .inflate(R.layout.item_view, parent, false)
 
         // Setup custom accessibility delegate to set the text read
-        layout.accessibilityDelegate = Accessibility
+        layout.accessibilityDelegate = Accessibility(R.string.look_up_word)
 
         return WordViewHolder(layout)
     }
@@ -77,33 +78,18 @@ class WordAdapter(private val letterId: String, context: Context) :
     override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
 
         val item = filteredWords[position]
-        // Needed to call startActivity
-        val context = holder.view.context
-
         // Set the text of the WordViewHolder
         holder.button.text = item
 
-    }
-    // Setup custom accessibility delegate to set the text read with
-    // an accessibility service
-    companion object Accessibility : View.AccessibilityDelegate() {
-        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-        override fun onInitializeAccessibilityNodeInfo(
-            host: View,
-            info: AccessibilityNodeInfo
-        ) {
-            super.onInitializeAccessibilityNodeInfo(host, info)
-            // With `null` as the second argument to [AccessibilityAction], the
-            // accessibility service announces "double tap to activate".
-            // If a custom string is provided,
-            // it announces "double tap to <custom string>".
-            val customString = host.context?.getString(R.string.look_up_word)
-            val customClick =
-                AccessibilityNodeInfo.AccessibilityAction(
-                    AccessibilityNodeInfo.ACTION_CLICK,
-                    customString
-                )
-            info.addAction(customClick)
+        // When the word button is pressed, an implicit intent is launched
+        // to google for the meaning of a word using the users default browser
+        holder.button.setOnClickListener{
+            val queryUri: Uri = Uri.parse("${DetailActivity.SEARCH_PREFIX}$item")
+            val intent = Intent(Intent.ACTION_VIEW, queryUri)
+            val context = holder.itemView.context
+            context.startActivity(intent)
         }
+
+
     }
 }
