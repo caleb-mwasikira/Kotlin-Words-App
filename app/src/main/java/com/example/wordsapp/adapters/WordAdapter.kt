@@ -23,9 +23,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
-import com.example.wordsapp.DetailActivity
 import com.example.wordsapp.accessibility.Accessibility
 import com.example.wordsapp.R
+import com.example.wordsapp.fragments.WordListFragment
 
 /**
  * Adapter for the [RecyclerView] in DetailActivity.
@@ -40,19 +40,13 @@ class WordAdapter(private val letterId: String, context: Context) :
         val words = context.resources.getStringArray(R.array.words).toList()
 
         filteredWords = words
-            // Returns items in a collection if the conditional clause is true,
-            // in this case if an item starts with the given letter,
-            // ignoring UPPERCASE or lowercase.
             .filter { it.startsWith(letterId, ignoreCase = true) }
-            // Returns a collection that it has shuffled in place
             .shuffled()
-            // Returns the first n items as a [List]
             .take(5)
-            // Returns a sorted version of that [List]
             .sorted()
     }
 
-    class WordViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+    class WordViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val button: Button = view.findViewById(R.id.button_item)
     }
 
@@ -76,7 +70,6 @@ class WordAdapter(private val letterId: String, context: Context) :
      * Replaces the content of an existing view with new data
      */
     override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
-
         val item = filteredWords[position]
         // Set the text of the WordViewHolder
         holder.button.text = item
@@ -84,7 +77,7 @@ class WordAdapter(private val letterId: String, context: Context) :
         // When the word button is pressed, an implicit intent is launched
         // to google for the meaning of a word using the users default browser
         holder.button.setOnClickListener{
-            val queryUri: Uri = Uri.parse("${DetailActivity.SEARCH_PREFIX}$item")
+            val queryUri: Uri = Uri.parse("${WordListFragment.SEARCH_PREFIX}$item")
             val intent = Intent(Intent.ACTION_VIEW, queryUri)
             val context = holder.itemView.context
             context.startActivity(intent)
